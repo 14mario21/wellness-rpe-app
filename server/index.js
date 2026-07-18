@@ -116,18 +116,34 @@ app.post('/api/send', async (req, res) => {
 // Comprueba si toca enviar Wellness o RPE en este minuto. La usa tanto el
 // cron interno (útil en local) como el endpoint /api/tick (lo llama un cron
 // externo en producción, por si el hosting gratuito se duerme).
+// Zona horaria en la que se interpretan las horas del horario (el hosting suele
+// estar en UTC). Por defecto, hora peninsular española.
+const TIMEZONE = process.env.TIMEZONE || 'Europe/Madrid';
+const WD = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+// Devuelve { day, hhmm } según la zona horaria configurada.
+function nowInTz() {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: TIMEZONE,
+    hourCycle: 'h23',
+    weekday: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).formatToParts(new Date());
+  const get = (t) => parts.find((p) => p.type === t)?.value;
+  return { day: WD[get('weekday')], hhmm: `${get('hour')}:${get('minute')}` };
+}
+
 let lastFired = '';
 async function runScheduledCheck() {
   const s = storage.getSchedule();
   if (!s.enabled) return;
 
-  const now = new Date();
-  const day = now.getDay();
-  const hhmm = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  const { day, hhmm } = nowInTz();
 
   if (!Array.isArray(s.days) || !s.days.includes(day)) return;
 
-  const stamp = `${now.toDateString()} ${hhmm}`;
+  const stamp = `${day} ${hhmm}`;
   if (s.wellnessTime === hhmm && lastFired !== `${stamp} wellness`) {
     lastFired = `${stamp} wellness`;
     await sendNotifications('wellness');
