@@ -45,6 +45,7 @@ html, body {
 h1 { font-size: 32px; font-weight: 800; margin: 0; text-align: center; }
 h2 { font-size: 26px; font-weight: 800; margin: 0 0 4px; }
 .subtitle { color: var(--muted); font-size: 15px; text-align: center; margin: 8px 0 32px; line-height: 1.4; }
+.brand-name { color: var(--text); font-size: 26px; font-weight: 800; text-align: center; margin: 6px 0 36px; letter-spacing: 0.5px; }
 .label { color: #e2e8f0; font-size: 14px; margin: 12px 0 6px; display: block; }
 
 input[type="text"], input[type="password"], input[type="tel"] {
