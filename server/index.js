@@ -96,6 +96,19 @@ app.post('/api/register', (req, res) => {
 // Lista de jugadores (para el panel del entrenador).
 app.get('/api/players', (_req, res) => res.json(storage.getPlayers()));
 
+// Eliminar un jugador por nombre (protegido con TICK_SECRET).
+// POST /api/players/remove  { "name": "...", "secret": "..." }
+app.post('/api/players/remove', (req, res) => {
+  const secret = process.env.TICK_SECRET;
+  if (secret && req.body?.secret !== secret) {
+    return res.status(403).json({ error: 'secret inválido' });
+  }
+  const name = String(req.body?.name || '').trim();
+  if (!name) return res.status(400).json({ error: 'Falta name' });
+  const removed = storage.removePlayer(name);
+  res.json({ ok: true, removed });
+});
+
 // Consultar / guardar el horario.
 app.get('/api/schedule', (_req, res) => res.json(storage.getSchedule()));
 app.post('/api/schedule', (req, res) => {

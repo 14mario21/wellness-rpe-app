@@ -125,6 +125,14 @@ module.exports = {
     return data.schedule;
   },
 
+  // Elimina un jugador por su nombre exacto. Devuelve true si existía.
+  removePlayer(name) {
+    if (!data.players[name]) return false;
+    delete data.players[name];
+    persist();
+    return true;
+  },
+
   removeByEndpoint(endpoint) {
     for (const [name, v] of Object.entries(data.players)) {
       if (v.subscription && v.subscription.endpoint === endpoint) {
