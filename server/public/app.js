@@ -295,21 +295,39 @@ document.addEventListener('click', (e) => {
 });
 $('#enable-notif').addEventListener('click', onEnableNotifications);
 
+// Mensaje del service worker al tocar una notificación con la app ya abierta.
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', (e) => {
+    if (e.data && e.data.action === 'open-form') {
+      const t = e.data.type === 'rpe' ? 'rpe' : 'wellness';
+      const user = getUser();
+      if (user && user.role === 'player') openForm(t);
+    }
+  });
+}
+
 // --- Arranque ---
-(async function init() {
-  await registerSW();
+(function init() {
+  registerSW(); // en segundo plano; no bloquea el enrutado
 
   // ¿Se abrió desde una notificación? (?form=wellness|rpe)
   const params = new URLSearchParams(location.search);
   const formParam = params.get('form');
+  const isForm = formParam === 'wellness' || formParam === 'rpe';
 
   const user = getUser();
   if (user && user.role === 'player') {
+    // Preparamos la pantalla del jugador por detrás (para el botón "Volver")...
     showPlayer();
-    if (formParam === 'wellness' || formParam === 'rpe') openForm(formParam);
+    // ...y si viene de una notificación, abrimos el formulario directamente encima
+    // (sin que se vea la pantalla de elegir).
+    if (isForm) openForm(formParam);
   } else if (user && user.role === 'coach') {
     showCoach();
   } else {
     show('screen-setup');
   }
+
+  // Limpiamos el parámetro para que no reabra el formulario si se recarga.
+  if (formParam) history.replaceState(null, '', '/');
 })();

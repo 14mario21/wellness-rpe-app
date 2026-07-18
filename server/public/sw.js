@@ -1,5 +1,5 @@
 // Service Worker: recibe las notificaciones push y gestiona el clic.
-const CACHE = 'wellness-rpe-v5';
+const CACHE = 'wellness-rpe-v6';
 const ASSETS = ['/', '/index.html', '/styles.css', '/app.js', '/config.js', '/manifest.webmanifest', '/logo.png'];
 
 self.addEventListener('install', (event) => {
@@ -49,14 +49,16 @@ self.addEventListener('notificationclick', (event) => {
   const type = event.notification.data && event.notification.data.type ? event.notification.data.type : 'wellness';
   const target = `/?form=${type}`;
   event.waitUntil(
-    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+    (async () => {
+      const list = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
       for (const client of list) {
-        if ('focus' in client) {
-          client.navigate(target);
-          return client.focus();
-        }
+        // App ya abierta: le mandamos un mensaje para que abra el formulario,
+        // y la traemos al frente (más fiable que navigate en iOS).
+        client.postMessage({ action: 'open-form', type });
+        if ('focus' in client) return client.focus();
       }
+      // App cerrada: la abrimos directamente en el formulario.
       return self.clients.openWindow(target);
-    })
+    })()
   );
 });
