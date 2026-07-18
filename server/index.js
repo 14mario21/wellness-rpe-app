@@ -40,11 +40,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 const MESSAGES = {
   wellness: {
     title: '📋 Cuestionario Wellness',
-    body: 'Antes de entrenar: rellena tu Wellness (fatiga, sueño, estrés…).',
+    body: 'Rellena tu Wellness (fatiga, sueño, estrés…) o MULTA 💰',
   },
   rpe: {
     title: '💪 Cuestionario RPE',
-    body: 'Después de entrenar: valora tu esfuerzo percibido (RPE).',
+    body: 'Rellena tu RPE (esfuerzo percibido) o MULTA 💰',
   },
 };
 
