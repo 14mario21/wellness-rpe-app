@@ -1,6 +1,6 @@
 // Service Worker: recibe las notificaciones push y gestiona el clic.
-const CACHE = 'wellness-rpe-v2';
-const ASSETS = ['/', '/index.html', '/styles.css', '/app.js', '/config.js', '/manifest.webmanifest'];
+const CACHE = 'wellness-rpe-v3';
+const ASSETS = ['/', '/index.html', '/styles.css', '/app.js', '/config.js', '/manifest.webmanifest', '/logo.png'];
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
