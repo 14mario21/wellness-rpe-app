@@ -8,6 +8,11 @@ window.APP_CONFIG = {
   RPE_URL:
     'https://docs.google.com/forms/d/e/1FAIpQLScaw8B4J12E6ulGssTO4MZA1ctI5gunWq_lGYwFtWh05whgog/viewform?embedded=true',
 
+  // Identificador del campo NOMBRE en cada formulario, para autocompletarlo.
+  // (Extraídos del propio formulario; si cambias las preguntas, revísalos.)
+  WELLNESS_NAME_ENTRY: 'entry.1590813373',
+  RPE_NAME_ENTRY: 'entry.392713478',
+
   // PIN para entrar al panel del entrenador. Cámbialo por uno tuyo.
   COACH_PIN: '1234',
 };

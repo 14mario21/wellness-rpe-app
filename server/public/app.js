@@ -142,7 +142,15 @@ async function onEnableNotifications() {
 function openForm(type) {
   const isRpe = type === 'rpe';
   $('#form-title').textContent = isRpe ? 'RPE (post-entrenamiento)' : 'Wellness (pre-entrenamiento)';
-  $('#form-frame').src = isRpe ? CFG.RPE_URL : CFG.WELLNESS_URL;
+
+  let url = isRpe ? CFG.RPE_URL : CFG.WELLNESS_URL;
+  // Autocompletar el NOMBRE con el del jugador guardado.
+  const user = getUser();
+  const entry = isRpe ? CFG.RPE_NAME_ENTRY : CFG.WELLNESS_NAME_ENTRY;
+  if (user && user.name && entry) {
+    url += '&' + entry + '=' + encodeURIComponent(user.name);
+  }
+  $('#form-frame').src = url;
   show('screen-form');
 }
 function closeForm() {
