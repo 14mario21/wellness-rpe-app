@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Wellness & RPE</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/icons/icon-180.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Wellness & RPE" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- Pantalla: elegir rol -->
+    <section id="screen-setup" class="screen active center">
+      <h1>Wellness &amp; RPE</h1>
+      <p class="subtitle">Control de carga y bienestar del equipo</p>
+
+      <div id="setup-choose">
+        <button class="btn btn-primary" data-action="choose-player">Soy jugador/a</button>
+        <button class="btn btn-secondary" data-action="choose-coach">Soy entrenador/a</button>
+      </div>
+
+      <div id="setup-player" hidden>
+        <label class="label">Tu nombre (igual que en el formulario)</label>
+        <input type="text" id="player-name" placeholder="Nombre y apellido" autocomplete="name" />
+        <button class="btn btn-primary" data-action="enter-player">Entrar</button>
+        <button class="link" data-action="back-choose">Volver</button>
+      </div>
+
+      <div id="setup-coach" hidden>
+        <label class="label">PIN del entrenador</label>
+        <input type="password" id="coach-pin" inputmode="numeric" placeholder="PIN" />
+        <button class="btn btn-primary" data-action="enter-coach">Entrar</button>
+        <button class="link" data-action="back-choose">Volver</button>
+      </div>
+    </section>
+
+    <!-- Pantalla: inicio del jugador -->
+    <section id="screen-player" class="screen">
+      <h2 id="player-hello">Hola</h2>
+      <p class="subtitle" style="text-align:left;margin:8px 0 16px">
+        Rellena el cuestionario que toque. También te avisaremos con una notificación
+        antes y después de cada entrenamiento.
+      </p>
+
+      <div id="notif-badge" class="badge badge-warn">Comprobando notificaciones…</div>
+
+      <div id="ios-install-hint" class="hint" hidden>
+        📲 <b>Para recibir avisos en iPhone:</b> toca el botón <b>Compartir</b> de Safari
+        y elige <b>«Añadir a pantalla de inicio»</b>. Luego abre la app desde ese icono.
+      </div>
+
+      <button id="enable-notif" class="btn btn-primary" hidden>🔔 Activar notificaciones</button>
+
+      <div class="card card-wellness" data-action="open-wellness">
+        <h3>Wellness</h3>
+        <p>Antes del entrenamiento · fatiga, sueño, estrés…</p>
+      </div>
+      <div class="card card-rpe" data-action="open-rpe">
+        <h3>RPE</h3>
+        <p>Después del entrenamiento · esfuerzo percibido</p>
+      </div>
+
+      <button class="link" data-action="logout">Cambiar de usuario</button>
+    </section>
+
+    <!-- Pantalla: formulario incrustado -->
+    <section id="screen-form" class="screen">
+      <div class="form-header">
+        <button class="back" data-action="close-form">‹ Volver</button>
+        <span class="title" id="form-title">Formulario</span>
+        <span class="spacer"></span>
+      </div>
+      <iframe id="form-frame" title="Formulario"></iframe>
+    </section>
+
+    <!-- Pantalla: panel del entrenador -->
+    <section id="screen-coach" class="screen">
+      <h2>Panel del entrenador</h2>
+      <p class="subtitle" id="players-count" style="text-align:left;margin:4px 0 12px">— jugadores registrados</p>
+
+      <div class="section-title">Enviar aviso ahora</div>
+      <div class="row">
+        <button class="btn btn-blue" data-action="send-wellness">Wellness</button>
+        <button class="btn btn-red" data-action="send-rpe">RPE</button>
+      </div>
+
+      <div class="section-title">Horario automático</div>
+      <label class="label">Días de entrenamiento</label>
+      <div class="days" id="days"></div>
+
+      <label class="label">Hora del Wellness (antes de entrenar)</label>
+      <input type="text" id="wellness-time" inputmode="numeric" placeholder="17:30" />
+
+      <label class="label">Hora del RPE (después de entrenar)</label>
+      <input type="text" id="rpe-time" inputmode="numeric" placeholder="19:30" />
+
+      <button id="toggle-auto" class="btn btn-secondary" data-action="toggle-auto">Automático activado</button>
+      <button class="btn btn-primary" data-action="save-schedule">Guardar horario</button>
+      <button class="link" data-action="logout">Salir del panel</button>
+    </section>
+
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/config.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

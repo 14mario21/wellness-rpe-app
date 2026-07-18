@@ -1,0 +1,25 @@
+# Blueprint de Render. Al conectar el repo, Render detecta este archivo y crea
+# el servicio automáticamente. Las variables marcadas como sync:false se
+# introducen a mano en el panel de Render (no se guardan en el repositorio).
+services:
+  - type: web
+    name: wellness-rpe
+    runtime: node
+    rootDir: server
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: VAPID_PUBLIC
+        sync: false
+      - key: VAPID_PRIVATE
+        sync: false
+      - key: VAPID_CONTACT
+        sync: false
+      - key: UPSTASH_REDIS_REST_URL
+        sync: false
+      - key: UPSTASH_REDIS_REST_TOKEN
+        sync: false
+      - key: TICK_SECRET
+        sync: false

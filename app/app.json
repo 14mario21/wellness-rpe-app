@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Wellness & RPE",
+    "slug": "wellness-rpe-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "wellnessrpe",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0f172a"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tuequipo.wellnessrpe"
+    },
+    "android": {
+      "package": "com.tuequipo.wellnessrpe"
+    },
+    "plugins": [
+      "expo-notifications"
+    ]
+  }
+}

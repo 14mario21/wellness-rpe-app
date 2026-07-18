@@ -1,0 +1,15 @@
+# Dependencias
+**/node_modules/
+
+# Datos y secretos (NO subir)
+server/data.json
+server/vapid.json
+
+# Logs
+*.log
+server/*.log
+
+# Expo (app nativa antigua, ya no se usa)
+app/.expo/
+app/dist/
+app/web-build/
