@@ -200,6 +200,27 @@ function renderAutoToggle() {
   b.className = 'btn btn-secondary';
 }
 
+// Lista los nombres de los jugadores registrados (orden alfabético).
+function renderPlayers(players) {
+  const el = $('#players-list');
+  el.innerHTML = '';
+  if (!players || players.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'muted';
+    li.textContent = 'Aún no hay jugadores registrados.';
+    el.appendChild(li);
+    return;
+  }
+  players
+    .map((p) => p.name)
+    .sort((a, b) => a.localeCompare(b, 'es'))
+    .forEach((name, i) => {
+      const li = document.createElement('li');
+      li.textContent = `${i + 1}. ${name}`;
+      el.appendChild(li);
+    });
+}
+
 async function showCoach() {
   show('screen-coach');
   try {
@@ -212,6 +233,7 @@ async function showCoach() {
     $('#wellness-time').value = s.wellnessTime || '17:30';
     $('#rpe-time').value = s.rpeTime || '19:30';
     $('#players-count').textContent = (players.length || 0) + ' jugador(es) registrados';
+    renderPlayers(players);
     renderDays();
     renderAutoToggle();
   } catch (e) {

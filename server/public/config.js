@@ -14,5 +14,5 @@ window.APP_CONFIG = {
   RPE_NAME_ENTRY: 'entry.392713478',
 
   // PIN para entrar al panel del entrenador. Cámbialo por uno tuyo.
-  COACH_PIN: '1234',
+  COACH_PIN: '2627',
 };
